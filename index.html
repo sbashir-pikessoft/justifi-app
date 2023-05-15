@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <style>
+    .form-wrapper
+    {
+      padding: 10px 100px;
+    }
+    .amount_wrapper
+    {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="form-wrapper">
+  <h1>Card Form</h1>
+  <hr>
+  <form>
+    <div>
+      <label>
+        Amount($)
+        <input id="amount"  type="number">
+      </label>
+    </div>
+  </form>
+  <justifi-card-form style-overrides='{
+    "layout":{
+      "padding":"0",
+      "formCon>trolSpacingHorizontal":".5rem",
+      "formControlSpacingVertical":"1rem"
+    },
+    "formLabel":{
+      "fontWeight":700,
+      "fontFamily":"sans-serif",
+      "margin":"0 0 .5rem 0"
+    },
+    "formControl":{
+      "backgroundColor":"#F4F4F6",
+      "backgroundColorHover":"#EEEEF5",
+      "borderColor":"rgba(0, 0, 0, 0.42)",
+      "borderColorHover":"rgba(0, 0, 0, 0.62)",
+      "borderColorFocus":"#fccc32",
+      "borderColorError":"#C12727",
+      "borderWidth":"0px",
+      "borderBottomWidth":"1px",
+      "borderRadius":"4px 4px 0 0",
+      "borderStyle":"solid",
+      "boxShadowErrorFocus":"none",
+      "boxShadowFocus":"none",
+      "color":"#212529",
+      "fontSize":"1rem",
+      "fontWeight":"400",
+      "lineHeight":"2",
+      "margin":"0",
+      "padding":".5rem .875rem"
+    },
+    "errorMessage":{
+      "color":"#C12727",
+      "margin":".25rem 0 0 0",
+      "fontSize":".875rem"
+    }
+  }'></justifi-card-form>
+  <button type="submit" id="card-pay-button">Pay</button>
+</div>
+  <!-- Add your site or application content here -->
+
+  <script type='module' src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@3.3.5/dist/webcomponents/webcomponents.esm.js"></script>
+  <script>
+    (function () {
+      const cardForm = document.querySelector('justifi-card-form');
+      const cardPayButton = document.querySelector('#card-pay-button');
+      const amountEl = document.getElementById("amount");
+
+
+      cardPayButton.addEventListener('click',(event) => {
+        const paymentMethodData = {
+          name: 'John Doe',
+          address_line1: '123 Broadway', // optional
+          address_line2: '', // optional
+          address_city: 'Minneapolis', // optional
+          address_state: 'MN', // optional
+          address_postal_code: '55413',
+          address_country: 'US', // optional
+          metadata: { something: "somevalue" } // optional
+        };
+
+        const amount = amountEl.value;
+
+        cardForm.tokenize('acc_58sfzGghtL2qDchgGKct3s', paymentMethodData, '')
+          .then((data) => {
+            // We gate UnAuthorized when we try to tokenize it...
+            console.log('justifi-card-form tokenized: ', data);
+          });
+      });
+
+    })();
+  </script>
+</body>
+
+</html>
